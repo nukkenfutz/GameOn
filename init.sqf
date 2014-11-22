@@ -1,2 +1,2 @@
 sleep 1;
-execVM "startzone.sqf";
+[startB, startO] execVM "gameon.sqf";
