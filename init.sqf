@@ -1,2 +1,2 @@
 sleep 1;
-[startB, startO, []] execVM "gameon.sqf";
+[startB, leadB, startO, leadO, []] execVM "gameon.sqf";
