@@ -1,5 +1,5 @@
 /*
-execute on all clients: 
+execute though init: 
 [<blufor's trigger>, <blufor leader>, <opfor's trigger>, <opfor leader>, <array of vehicles to lock>] execVM "gameon.sqf";
 be sure each trigger is activated by its respective team
 all players must be within their team's trigger on execution
@@ -9,7 +9,23 @@ if a player leaves their trigger they will be teleported to the trigger's center
 player projectiles will be deleted instantly clientside
 all vehicles in the array will be locked until game on
 */
-if (isdedicated) then {} else {
+if (isserver) then {
+
+	(_this select 1) addaction ["GameOn: BLUFOR Ready", {
+		readyb = true;
+		publicvariable "readyb";
+		(_this select 1) removeaction 0;
+		(_this select 1) globalchat "[GameOn] BLUFOR is ready.";
+	}, "", 0, false, true];
+	
+	(_this select 3) addaction ["GameOn: OPFOR Ready", {
+		readyo = true;
+		publicvariable "readyo";
+		(_this select 3) removeaction 0;
+		(_this select 3) globalchat "[GameOn] OPFOR is ready.";
+	}, "", 0, false, true];
+	
+};
 
 bf = [] + list (_this select 0);
 of = [] + list (_this select 2);
@@ -18,18 +34,6 @@ readyo = false;
 
 nobullets = player addeventhandler ["Fired", { deletevehicle (_this select 6);}];
 {_x lock true} foreach (_this select 4);
-
-(_this select 1) addaction ["GameOn: BLUFOR Ready", {
-	readyb = true; publicvariable "readyb";
-	(_this select 1) removeaction 0;
-	(_this select 1) globalchat "[GameOn] BLUFOR is ready.";
-}, "", 0, false, true];
-
-(_this select 3) addaction ["GameOn: OPFOR Ready", {
-	readyo = true; publicvariable "readyo";
-	(_this select 3) removeaction 0;
-	(_this select 3) globalchat "[GameOn] OPFOR is ready.";
-}, "", 0, false, true];
 
 while {!(readyb && readyo)} do {
 	if (count bf > count (list (_this select 0))) then {
@@ -47,5 +51,3 @@ player removeeventhandler ["Fired", nobullets];
 {_x lock false} foreach (_this select 4);
 deletevehicle (_this select 0);
 deletevehicle (_this select 2);
-
-};
