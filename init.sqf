@@ -1,2 +1,4 @@
 sleep 1;
-[startB, leadB, startO, leadO, [bv, ov]] execVM "gameon.sqf";
+enableSaving [false, false];
+enableSentences false;
+[startB, leadB, startO, leadO, [av,bv]] execVM "gameon.sqf";
