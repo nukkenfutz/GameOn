@@ -15,27 +15,23 @@ of = [] + list (_this select 2);
 readyb = false;
 readyo = false;
 
-if (isserver) then {
-
-	[[(_this select 1),{
-		(_this select 0) addaction ["GameOn: BLUFOR Ready", {
-			readyb = true;
-			publicvariable "readyb";
-			(_this select 3) removeaction 0;
-			["[GameOn] BLUFOR is ready.", systemchat, true] call BIS_fnc_MP;
-		}, (_this select 0), 0, false, true];
-	}], "BIS_fnc_spawn", (_this select 1)] call BIS_fnc_MP;
-
-	[[(_this select 3),{
-		(_this select 0) addaction ["GameOn: OPFOR Ready", {
-			readyo = true;
-			publicvariable "readyo";
-			(_this select 3) removeaction 0;
-			["[GameOn] OPFOR is ready.", systemchat, true] call BIS_fnc_MP;
-		}, (_this select 0), 0, false, true];
-	}], "BIS_fnc_spawn", (_this select 3)] call BIS_fnc_MP;
-	
+if (player == (_this select 1)) then {
+	player addaction ["GameOn: BLUFOR Ready", {
+		readyb = true;
+		publicvariable "readyb";
+		player removeaction 0;
+		["[GameOn] BLUFOR is ready.", "systemchat", true] call BIS_fnc_MP;
+	}, player, 0, false, true];
 };
+
+if (player == (_this select 3)) then {
+	player addaction ["GameOn: OPFOR Ready", {
+		readyo = true;
+		publicvariable "readyo";
+		player removeaction 0;
+		["[GameOn] OPFOR is ready.", "systemchat", true] call BIS_fnc_MP;
+	}, player, 0, false, true];
+	};
 
 nobullets = player addeventhandler ["Fired", { deletevehicle (_this select 6);}];
 if (count (_this select 4) != 0) then {{_x lock true} foreach (_this select 4);};
