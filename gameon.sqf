@@ -1,5 +1,5 @@
 /*
-execute though init: 
+execute through init: 
 [<blufor's trigger>, <blufor leader>, <opfor's trigger>, <opfor leader>, <array of vehicles to lock>] execVM "gameon.sqf";
 be sure each trigger is activated by its respective team
 all players must be within their team's trigger on execution
