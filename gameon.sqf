@@ -92,7 +92,7 @@ while {!(readyb && readyo)} do {
 			{
 				_x setpos getpos _bfTrig;
 			}
-		} forEach (bf - (list _bfTrig));
+		} forEach (_bfPlayers - (list _bfTrig));
 	};
 	if (count _ofPlayers > count (list _ofTrig)) then 
 	{
@@ -101,7 +101,7 @@ while {!(readyb && readyo)} do {
 			{
 				_x setpos getpos _ofTrig;
 			}
-		} forEach (of - (list _ofTrig));
+		} forEach (_ofPlayers - (list _ofTrig));
 	};
 	// anything you want done every second until game on goes here
 	sleep 1.0;
