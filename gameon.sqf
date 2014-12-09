@@ -79,7 +79,7 @@ if (player == _ofLeader) then {
 
 player allowDamage false;
 nobullets = player addeventhandler ["Fired", { deletevehicle (_this select 6);}];
-if (count (_this select 4) != 0) then {{_x lock true} foreach (_this select 4);};
+if (count (_vehicles) != 0) then {{_x lock true} foreach (_vehicles);};
 
 while {!(readyb && readyo)} do {
 	if (count _bfPlayers > count (list _bfTrig)) then 
@@ -104,9 +104,15 @@ while {!(readyb && readyo)} do {
 	sleep 1;
 };
 
-{systemchat _x; sleep 1;} foreach ["[GameOn] BLUFOR and OPFOR are ready.", "3", "2", "1", "Game on."];
+{systemchat _x; sleep 1;} foreach ["[GameOn] BLUFOR and OPFOR are ready.", "3", "2", "1", "Let's jam."];
+
 player allowDamage true;
 player removeeventhandler ["Fired", nobullets];
-if (count (_this select 4) != 0) then {{_x lock false} foreach (_this select 4);};
-deletevehicle (_this select 0); //remove these if you dont want the passed triggers deleted
-deletevehicle (_this select 2); //
+
+if (count _vehicles != 0) then 
+{
+	{_x lock false;} forEach _vehicles;
+};
+
+deletevehicle (_bfTrig); //remove these if you dont want the passed triggers deleted
+deletevehicle (_ofTrig); //
