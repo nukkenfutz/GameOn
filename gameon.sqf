@@ -14,8 +14,11 @@ all vehicles in the array will be locked until game on
 readyb = false;
 readyo = false;
 
-_bfLeader = _this select 2;
-_ofLeader = _this select 3;
+_bfLeader = objNull;
+_ofLeader = objNull;
+
+if (isPlayer (_this select 2)) then  { _bfLeader = _this select 2;};
+if (isPlayer (_this select 3)) then  { _ofLeader = _this select 3;};
 
 _bfRating = 0;
 _ofRating = 0;
@@ -101,10 +104,12 @@ while {!(readyb && readyo)} do {
 		} forEach (of - (list _ofTrig));
 	};
 	// anything you want done every second until game on goes here
-	sleep 1;
+	sleep 1.0;
 };
 
-{systemchat _x; sleep 1;} foreach ["[GameOn] BLUFOR and OPFOR are ready.", "3", "2", "1", "Let's jam."];
+systemchat "[GameOn] BLUFOR and OPFOR are ready.";
+sleep 2.0;
+{systemchat _x; sleep 0.5;} foreach [ "3", "2", "1", "Let's jam."];
 
 player allowDamage true;
 player removeeventhandler ["Fired", nobullets];
