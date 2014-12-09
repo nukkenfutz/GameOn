@@ -11,14 +11,12 @@ player projectiles will be deleted instantly clientside
 all vehicles in the array will be locked until game on
 */
 
+// Setup variables
 readyb = false;
 readyo = false;
 
 _bfLeader = objNull;
 _ofLeader = objNull;
-
-if (isPlayer (_this select 2)) then  { _bfLeader = _this select 2;};
-if (isPlayer (_this select 3)) then  { _ofLeader = _this select 3;};
 
 _bfRating = 0;
 _ofRating = 0;
@@ -32,6 +30,9 @@ _ofPlayers = [] + list _ofTrig;
 _vehicles = _this select 4;
 
 
+// Find side leaders
+if (isPlayer (_this select 2)) then  { _bfLeader = _this select 2;};
+if (isPlayer (_this select 3)) then  { _ofLeader = _this select 3;};
 {
 	if (alive _x && isPlayer _x) then
 	{
@@ -62,6 +63,7 @@ _vehicles = _this select 4;
 	};
 } forEach allUnits;
 
+// Give leaders GameOn addAction
 if (player == _bfLeader) then {
 	player addaction ["GameOn: BLUFOR Ready", {
 		readyb = true;
@@ -80,10 +82,17 @@ if (player == _ofLeader) then {
 	}, player, 0, false, true];
 };
 
+// Disable damage and bullets
 player allowDamage false;
-nobullets = player addeventhandler ["Fired", { deletevehicle (_this select 6);}];
-if (count (_vehicles) != 0) then {{_x lock true} foreach (_vehicles);};
+_noBullets = player addeventhandler ["Fired", { deletevehicle (_this select 6);}]; // deletes all fired munitions including thrown objects
 
+// Lock vehicles
+if (count (_vehicles) != 0) then 
+{
+	{_x lock true} foreach _vehicles;
+};
+
+// Teleport players back to spawn
 while {!(readyb && readyo)} do {
 	if (count _bfPlayers > count (list _bfTrig)) then 
 	{
@@ -103,21 +112,29 @@ while {!(readyb && readyo)} do {
 			}
 		} forEach (_ofPlayers - (list _ofTrig));
 	};
+	
 	// anything you want done every second until game on goes here
+	
 	sleep 1.0;
 };
 
+// Game On
+
+// Chat messages
 systemchat "[GameOn] BLUFOR and OPFOR are ready.";
 sleep 2.0;
 {systemchat _x; sleep 0.5;} foreach [ "3", "2", "1", "Let's jam."];
 
+// Enable damage, remove bullet event handler
 player allowDamage true;
-player removeeventhandler ["Fired", nobullets];
+player removeeventhandler ["Fired", _noBullets];
 
+// Unlock vehicles
 if (count _vehicles != 0) then 
 {
 	{_x lock false;} forEach _vehicles;
 };
 
-deletevehicle (_bfTrig); //remove these if you dont want the passed triggers deleted
-deletevehicle (_ofTrig); //
+// Delete spawn triggers
+deletevehicle (_bfTrig);
+deletevehicle (_ofTrig);
