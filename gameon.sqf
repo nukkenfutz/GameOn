@@ -64,20 +64,20 @@ if (isPlayer (_this select 3)) then  { _ofLeader = _this select 3;};
 } forEach allUnits;
 
 // Give leaders GameOn addAction
-if (player == _bfLeader) then {
+bfGameOnAction = if (player == _bfLeader) then {
 	player addaction ["GameOn: BLUFOR Ready", {
 		readyb = true;
 		publicvariable "readyb";
-		player removeaction 0;
+		player removeaction bfGameOnAction;
 		["[GameOn] BLUFOR is ready.", "systemchat", true] call BIS_fnc_MP;
 	}, player, 0, false, true];
 };
 
-if (player == _ofLeader) then {
+ofGameOnAction = if (player == _ofLeader) then {
 	player addaction ["GameOn: OPFOR Ready", {
 		readyo = true;
 		publicvariable "readyo";
-		player removeaction 0;
+		player removeaction ofGameOnAction;
 		["[GameOn] OPFOR is ready.", "systemchat", true] call BIS_fnc_MP;
 	}, player, 0, false, true];
 };
