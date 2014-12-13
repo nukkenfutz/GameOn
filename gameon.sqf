@@ -18,8 +18,8 @@ readyo = false;
 _bfLeader = objNull;
 _ofLeader = objNull;
 
-_bfRating = 0;
-_ofRating = 0;
+_bfRating = -1; // Privates are rated 0
+_ofRating = -1;
 
 _bfTrig = _this select 0;
 _ofTrig = _this select 1;
