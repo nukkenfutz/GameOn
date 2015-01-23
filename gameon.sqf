@@ -84,7 +84,7 @@ ofGameOnAction = if (player == _ofLeader) then {
 
 // Disable damage and bullets
 player allowDamage false;
-_noBullets = player addeventhandler ["Fired", { deletevehicle (_this select 6);}]; // deletes all fired munitions including thrown objects
+_noBullets = player addeventhandler ["Fired", {(_this select 6) setpos [0,0,0]; deletevehicle (_this select 6);}]; // deletes all fired munitions including thrown objects
 
 // Lock vehicles
 if (count (_vehicles) != 0) then 
