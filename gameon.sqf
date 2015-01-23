@@ -93,29 +93,45 @@ if (count (_vehicles) != 0) then
 };
 
 // Teleport players back to spawn
-while {!(readyb && readyo)} do {
-	if (count _bfPlayers > count (list _bfTrig)) then 
+
+if (side player == WEST) then 
+{
+	while {!(readyb && readyo)} do 
 	{
-		{ 
-			if (alive _x) then 
-			{
-				_x setpos getpos _bfTrig;
-			}
-		} forEach (_bfPlayers - (list _bfTrig));
-	};
-	if (count _ofPlayers > count (list _ofTrig)) then 
-	{
+		if (!(player in (list _bfTrig))) then 
 		{
-			if (alive _x) then 
+			if (alive player) then 
 			{
-				_x setpos getpos _ofTrig;
-			}
-		} forEach (_ofPlayers - (list _ofTrig));
+				player setpos getpos _bfTrig;
+			};
+		};
+		
+		sleep 1.0;
 	};
-	
-	// anything you want done every second until game on goes here
-	
-	sleep 1.0;
+};
+
+if (side player == EAST) then 
+{
+	while {!(readyb && readyo)} do 
+	{
+		if (!(player in (list _ofTrig))) then 
+		{
+			if (alive player) then 
+			{
+				player setpos getpos _ofTrig;
+			};
+		};
+		
+		sleep 1.0;
+	};
+};
+
+if ((side player != WEST) && (side player != EAST)) then
+{
+	while {!(readyb && readyo)} do
+	{
+		sleep 1.0;
+	};
 };
 
 // Game On
@@ -123,7 +139,7 @@ while {!(readyb && readyo)} do {
 // Chat messages
 systemchat "[GameOn] BLUFOR and OPFOR are ready.";
 sleep 2.0;
-{systemchat _x; sleep 0.5;} foreach [ "3", "2", "1", "Let's jam."];
+{systemchat _x; sleep 0.4;} foreach [ "3", "2", "1", "Let's jam."];
 
 // Enable damage, remove bullet event handler
 player allowDamage true;
