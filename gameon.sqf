@@ -29,7 +29,6 @@ _ofPlayers = [] + list _ofTrig;
 
 _vehicles = _this select 4;
 
-
 // Find side leaders
 if (isPlayer (_this select 2)) then  { _bfLeader = _this select 2;};
 if (isPlayer (_this select 3)) then  { _ofLeader = _this select 3;};
@@ -150,7 +149,3 @@ if (count _vehicles != 0) then
 {
 	{_x lock false;} forEach _vehicles;
 };
-
-// Delete spawn triggers
-deletevehicle (_bfTrig);
-deletevehicle (_ofTrig);
